@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleFinder", "ScheduleFinder\ScheduleFinder.csproj", "{DB58737D-20C4-489B-B18C-0A4E78A19184}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB58737D-20C4-489B-B18C-0A4E78A19184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB58737D-20C4-489B-B18C-0A4E78A19184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB58737D-20C4-489B-B18C-0A4E78A19184}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB58737D-20C4-489B-B18C-0A4E78A19184}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EB10416F-55CB-4E04-AC76-D0C7ABADF953}
+	EndGlobalSection
+EndGlobal
