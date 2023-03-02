@@ -1,32 +1,6 @@
 ﻿
 const elementExist = setInterval(() => {
     var elm = document.querySelector("td.day.slotsavailable a");
-
-    var resultAvailbleTest = document.querySelector("title");
-
- 
-   // console.log(resultAvailbleTest);
-    if (resultAvailbleTest != null && resultAvailbleTest.innerText == "Test centre availability - Book tests")
-    {
-
-        var nodes = document.getElementsByClassName("reserve centre");
-
-       // console.log(nodes.length);
-        if (nodes != null)
-        {
-            for (var i = 0; i < nodes.length; i++) {
-                var a = nodes[i].querySelector('span span a');
-
-                if (a != null)
-                {
-                    clearInterval(elementExist);
-                    a.click();                 
-
-                }
-
-            }
-        }
-    }
   
     
     if (elm != null) {
@@ -59,7 +33,7 @@ const elementExist = setInterval(() => {
             ldate = Date.parse(ldate.innerHTML);
         }
 
-        //console.log(cdate + "-" + ldate + "-" + ex.innerHTML);
+       // console.log(cdate + "-" + ldate + "-" + ex.innerHTML);
 
         if (ex != null && ex.innerHTML == "on")
         {           
@@ -72,7 +46,7 @@ const elementExist = setInterval(() => {
 
        
     }
-}, 250);
+}, 200);
 
 
 

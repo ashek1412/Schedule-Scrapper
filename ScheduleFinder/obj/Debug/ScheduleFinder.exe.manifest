@@ -4,7 +4,7 @@
   <description asmv2:iconFile="icons8_web_scraper_96_sat_icon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="ScheduleFinder" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="ScheduleFinder" version="1.0.0.1" language="neutral" processorArchitecture="msil" />
     <commandLine file="ScheduleFinder.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -163,14 +163,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ScheduleFinder.exe" size="148960">
-      <assemblyIdentity name="ScheduleFinder" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ScheduleFinder.exe" size="149984">
+      <assemblyIdentity name="ScheduleFinder" version="1.0.0.1" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>emHayuA5IcecPj+MYpLzucp42dTxlWl3jR5JhohLSu0=</dsig:DigestValue>
+        <dsig:DigestValue>95oxbA2oUnFo0ZHV1k7CmFbynqjYALgYOrTt8CH09qY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -267,13 +267,13 @@
       <dsig:DigestValue>UiwnhvH6193ykmjYF0VMTKyjus9ERaCg/qd3uoCuM8I=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="myscript.js" size="2574">
+  <file name="myscript.js" size="3469">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>z0/ch2uheyJ3BZRXKPlDUaD+3oQCdz9DzOQtRuBfXSE=</dsig:DigestValue>
+      <dsig:DigestValue>i1RgN0LjxTWrGDqvoWVSSsNy6vqWQ2SRPwtAqLw2FY4=</dsig:DigestValue>
     </hash>
   </file>
   <file name="runtimes\win-arm64\native\WebView2Loader.dll" size="128952">

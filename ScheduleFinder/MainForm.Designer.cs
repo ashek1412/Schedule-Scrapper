@@ -39,7 +39,9 @@ namespace ScheduleFinder
             this.NextCnt = new System.Windows.Forms.Label();
             this.prevCnt = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.label4 = new System.Windows.Forms.Label();
+            this.intervalComboBox = new System.Windows.Forms.ComboBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.labelSlotBooked = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.webView21)).BeginInit();
             this.panel1.SuspendLayout();
@@ -160,7 +162,9 @@ namespace ScheduleFinder
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Info;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.dateTimePicker1);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.intervalComboBox);
+            this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.labelSlotBooked);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.buttonStop);
@@ -175,21 +179,55 @@ namespace ScheduleFinder
             this.panel1.Size = new System.Drawing.Size(1427, 44);
             this.panel1.TabIndex = 10;
             // 
-            // dateTimePicker1
+            // label4
             // 
-            this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(914, 9);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(133, 21);
-            this.dateTimePicker1.TabIndex = 13;
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Black;
+            this.label4.Location = new System.Drawing.Point(829, 14);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(67, 16);
+            this.label4.TabIndex = 14;
+            this.label4.Text = "Interval :";
+            // 
+            // intervalComboBox
+            // 
+            this.intervalComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.intervalComboBox.FormattingEnabled = true;
+            this.intervalComboBox.Items.AddRange(new object[] {
+            "1.30",
+            "2.00",
+            "2.30",
+            "3.00",
+            "3.30",
+            "4.00",
+            "4.30",
+            "5.00",
+            "5.30",
+            "6.00",
+            "6.30",
+            "7.00",
+            "7.30",
+            "8.00"});
+            this.intervalComboBox.Location = new System.Drawing.Point(901, 11);
+            this.intervalComboBox.Name = "intervalComboBox";
+            this.intervalComboBox.Size = new System.Drawing.Size(80, 21);
+            this.intervalComboBox.TabIndex = 13;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(994, 11);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 11;
             // 
             // labelSlotBooked
             // 
             this.labelSlotBooked.AutoSize = true;
             this.labelSlotBooked.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSlotBooked.ForeColor = System.Drawing.Color.Purple;
-            this.labelSlotBooked.Location = new System.Drawing.Point(724, 13);
+            this.labelSlotBooked.Location = new System.Drawing.Point(665, 13);
             this.labelSlotBooked.Name = "labelSlotBooked";
             this.labelSlotBooked.Size = new System.Drawing.Size(113, 16);
             this.labelSlotBooked.TabIndex = 12;
@@ -228,7 +266,9 @@ namespace ScheduleFinder
         private System.Windows.Forms.Label prevCnt;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label labelSlotBooked;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox intervalComboBox;
+        private System.Windows.Forms.Label label4;
     }
 }
 

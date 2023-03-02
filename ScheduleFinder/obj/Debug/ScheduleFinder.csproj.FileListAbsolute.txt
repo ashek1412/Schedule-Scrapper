@@ -3,6 +3,8 @@ F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\bin\Debug\runtimes\win-x86\native\We
 F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\bin\Debug\runtimes\win-x64\native\WebView2Loader.dll
 F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\bin\Debug\runtimes\win-arm64\native\WebView2Loader.dll
 F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\bin\Debug\ScheduleFinder.exe.config
+F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\bin\Debug\ScheduleFinder.exe.manifest
+F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\bin\Debug\ScheduleFinder.application
 F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\bin\Debug\ScheduleFinder.exe
 F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\bin\Debug\ScheduleFinder.pdb
 F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\bin\Debug\BouncyCastle.Crypto.dll
@@ -44,11 +46,8 @@ F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\obj\Debug\ScheduleFinder.MainForm.re
 F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\obj\Debug\ScheduleFinder.Properties.Resources.resources
 F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\obj\Debug\ScheduleFinder.csproj.GenerateResource.cache
 F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\obj\Debug\ScheduleFinder.csproj.CoreCompileInputs.cache
-F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\obj\Debug\ScheduleFinder.exe
-F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\obj\Debug\ScheduleFinder.pdb
-F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\bin\Debug\ScheduleFinder.exe.manifest
-F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\bin\Debug\ScheduleFinder.application
 F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\obj\Debug\ScheduleFinder.exe.manifest
 F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\obj\Debug\ScheduleFinder.application
 F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\obj\Debug\ScheduleFinder.csproj.CopyComplete
-F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\obj\Debug\ScheduleFinder.csproj.AssemblyReference.cache
+F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\obj\Debug\ScheduleFinder.exe
+F:\Dev\dotnet\ScheduleFinder\ScheduleFinder\obj\Debug\ScheduleFinder.pdb

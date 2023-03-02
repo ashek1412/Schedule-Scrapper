@@ -13,6 +13,8 @@ using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
 using System.Web;
 using System.Globalization;
+using System.Collections.Generic;
+using MailKit.Security;
 
 namespace ScheduleFinder
 {
@@ -25,23 +27,15 @@ namespace ScheduleFinder
         int prevClicked = 1;
         int slotClicked = 0;
         int lastWeekClicked = 0;
-        string allNone;
-        decimal[] decArray = { 1.00M,1.50M,2.00M,2.50M,3.00M};
+        string allNone; 
 
+       
 
-        DateTime Dt;
-        DateTime cdt;
-        DateTime ldt;
-        
 
         public MainForm()
         {
             InitializeComponent();
             this.Text = "Schedule Finder - "+ Application.ProductVersion;
-           
-
-
-
 
         }
         public struct JsonObject
@@ -60,7 +54,7 @@ namespace ScheduleFinder
                 await webView21.EnsureCoreWebView2Async(null);
                 Debug.WriteLine("WebView2 Runtime version: " + webView21.CoreWebView2.Environment.BrowserVersionString);
 
-                //SendMail("test");
+               // SendMail("test");
             }
             catch (Exception ex1)
             {
@@ -113,12 +107,19 @@ namespace ScheduleFinder
 
             try
             {
+                DateTime start_date = DateTime.Today;
                 
-                dateTimePicker1.CustomFormat = "dd-MMM-yyyy";
-                Dt = DateTime.Today.AddDays(10 * 7); ;
+                DateTime end_date = DateTime.Today.AddMonths(6);
+                List<string> days_list = new List<string>();
+                for (DateTime date = start_date; date <= end_date; date = date.AddDays(1))
+                {
+                    if (date.DayOfWeek == DayOfWeek.Sunday)
+                        days_list.Add(date.ToString("yyyy-MM-dd"));
+                }
 
-                              
-                dateTimePicker1.Value= Dt;
+                comboBox1.DataSource = days_list;
+                comboBox1.SelectedIndex = 10;
+
                 Debug.WriteLine("before InitializeAsync");
                 await InitializeAsync();
                 Debug.WriteLine("after InitializeAsync");
@@ -182,15 +183,11 @@ namespace ScheduleFinder
                 //var nodes = htmlDoc.DocumentNode.SelectNodes("//td[@class='sorting_1']");
                 if (nodes != null)
                 {
-                    if (mytimer.Enabled)
-                    {
+                   
                         mytimer.Stop();
-                        buttonStop.Enabled = false;
-
-
-                    }
-                    buttonStart.Enabled = true;
-                    foreach (HtmlNode node in nodes)
+                        buttonStop.Enabled = false;                   
+                        buttonStart.Enabled = true;
+                   /* foreach (HtmlNode node in nodes)
                     {
                         HtmlNode a = node.SelectSingleNode("a[@href]");
                         if (a != null)
@@ -204,7 +201,7 @@ namespace ScheduleFinder
                         //MessageBox.Show(node.InnerText);
 
 
-                    }
+                    }*/
 
 
                     //slotlFoundLabel.Text = "Slot Found : " + nodes.Count;
@@ -229,16 +226,30 @@ namespace ScheduleFinder
 
         }
 
+        public double NextDouble(Random rand, double minValue, double maxValue, int decimalPlaces)
+        {
+            double randNumber = rand.NextDouble() * (maxValue - minValue) + minValue;
+            return Convert.ToDouble(randNumber.ToString("f" + decimalPlaces));
+        }
+
+       
+
+
         public async void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
         {
             try
             {
-                //int fortimerinterval = rand.Next(2, 4);
-                decimal fortimerinterval = decArray[rand.Next(0, decArray.Length)];
+                int fortimerinterval = rand.Next(100, 500);
+                // decimal fortimerinterval = decArray[rand.Next(0, decArray.Length)];
+                double fromTime= Convert.ToDouble(intervalComboBox.Text);
+                double toTime = fromTime+1.50;
+                double randNumber = NextDouble(rand, fromTime, toTime, 2); // Round to 2 decimal places
 
-                mytimer.Interval = (int)fortimerinterval*1000;
+                mytimer.Interval = (int)randNumber * 1000;
 
+                //int r = await FindSlot();
                 int r = 0;
+
                 if (r == 0)
                 {
                     
@@ -252,25 +263,50 @@ namespace ScheduleFinder
                     htmlDoc.LoadHtml(allNone);
                     // await Task.Delay(2 * 1000);
                     var nextWeek = htmlDoc.DocumentNode.SelectNodes("//a[@id='searchForWeeklySlotsNextAvailable']");
-                   // var prevWeek = htmlDoc.DocumentNode.SelectNodes("//a[@id='searchForWeeklySlotsPreviousAvailable']");
+                    var prevWeek = htmlDoc.DocumentNode.SelectNodes("//a[@id='searchForWeeklySlotsPreviousAvailable']");
 
                     label1.Text = "Elapsed Time :" + s1.Elapsed.Hours + ":" + s1.Elapsed.Minutes + ":" + s1.Elapsed.Seconds;
 
-                 //   if ((prevWeek != null && lastWeekClicked == 2) || (prevWeek != null && nextWeek==null))
-                    //{
-                    //    string res = await webView21.ExecuteScriptAsync("document.getElementById('searchForWeeklySlotsPreviousAvailable').click()");
-
-                    //    prevCnt.Text = " " + prevClicked++;
-                    //    lastWeekClicked = 1;
-                    //}
-                    //else 
-                    if (nextWeek != null)
+                    if (prevWeek != null)
                     {
+                       string res = await webView21.ExecuteScriptAsync("document.getElementById('searchForWeeklySlotsPreviousAvailable').click()");
+                       
+                        prevCnt.Text = " " + prevClicked++;
+                        lastWeekClicked = 1;
+                        /*                        if (prevClicked % fortimerinterval == 0)
+                                                {
+                                                    mytimer.Stop();
+                                                    buttonStop.Enabled = false;
+                                                }*/
 
+                    }
+                    else if (nextWeek != null)
+                    {
+                        // string res = await webView21.ExecuteScriptAsync("document.getElementById('searchForWeeklySlotsPreviousAvailable').click()");
                         string res = await webView21.ExecuteScriptAsync("document.getElementById('searchForWeeklySlotsNextAvailable').click()");
                         NextCnt.Text = " " + nextClicked++;
-                        lastWeekClicked = 2;
+                        lastWeekClicked = 1;
+/*                        if (prevClicked % fortimerinterval == 0)
+                        {
+                            mytimer.Stop();
+                            buttonStop.Enabled = false;
+                        }*/
+                        
                     }
+                    else
+                    {
+                        mytimer.Stop();
+                        buttonStop.Enabled = false;
+
+                    }
+                    //else if (nextWeek != null)
+                    //{
+
+                    //    string res = await webView21.ExecuteScriptAsync("document.getElementById('searchForWeeklySlotsNextAvailable').click()");
+                    //    NextCnt.Text = " " + nextClicked++;
+                    //    lastWeekClicked = 2;
+                       
+                    //}
 
                 }
                 else
@@ -282,14 +318,7 @@ namespace ScheduleFinder
                     }
                 }
 
-                //int l = await FindSlot();
-
-                if (mytimer.Enabled==false)
-                {
-                    mytimer.Start();
-                    
-                }              
-
+              
 
             }
             catch(Exception tickerEx)
@@ -301,34 +330,43 @@ namespace ScheduleFinder
 
         private async void buttonStart_Click(object sender, EventArgs e)
         {
+            // SendMail("test");
+
             try
             {
+                slotClicked = 0;
                 string sURL = webView21.Source.ToString();
-                string live_url = "https://dsa.dft.gov.uk/obs-web/pages/home?execution";
-                string test_url = "https://datatables.net/examples/data_sources/dom";
+                string live_url = "https://driver-services.dvsa.gov.uk/obs-web/pages/home?execution";
 
-                if (sURL.Contains(live_url))
+                string live_url_change = "https://driver-services.dvsa.gov.uk/obs-web/pages/common/notifications?execution";
+
+                string live_url_book = "https://driver-services.dvsa.gov.uk/obs-web/pages/bookingmanagement/searchforbookings?execution";
+
+
+                if (sURL.Contains(live_url) || sURL.Contains(live_url_change) || sURL.Contains(live_url_book))
+                //if (sURL.Contains(live_url))
                 {
 
                     string allNone = await webView21.ExecuteScriptAsync("document.documentElement.outerHTML;");
-                    allNone = Regex.Unescape(allNone); 
+                    allNone = Regex.Unescape(allNone);
                     allNone = allNone.Remove(0, 1);
                     allNone = allNone.Remove(allNone.Length - 1, 1);
                     var htmlDoc = new HtmlAgilityPack.HtmlDocument();
                     htmlDoc.LoadHtml(allNone);
                     var tagNext = htmlDoc.DocumentNode.SelectNodes("//a[@id='searchForWeeklySlotsNextAvailable']");
-                   // var tagPrev = htmlDoc.DocumentNode.SelectNodes("//a[@id='searchForWeeklySlotsPreviousAvailable']");
-                    slotClicked = 0;
+                    // var tagPrev = htmlDoc.DocumentNode.SelectNodes("//a[@id='searchForWeeklySlotsPreviousAvailable']");
+
                     await webView21.ExecuteScriptAsync("document.getElementById('timer_stat').innerHTML ='on';");
+                    await webView21.ExecuteScriptAsync("document.getElementById('last_date').innerHTML ='" + comboBox1.SelectedItem.ToString() + "';");
                     if (lastWeekClicked == 0)
                     {
                         lastWeekClicked = 2;
 
                         //if (tagNext != null || tagPrev != null)
-                         if (tagNext != null)
-                         {
+                        if (tagNext != null)
+                        {
                             mytimer.Tick += new EventHandler(TimerEventProcessor);
-                            mytimer.Interval = 1000;                            
+                            mytimer.Interval = 1000;
                             mytimer.Enabled = true;
                             mytimer.Start();
                             buttonStart.Enabled = false;
@@ -338,6 +376,7 @@ namespace ScheduleFinder
                     }
                     else
                     {
+
                         mytimer.Start();
                         buttonStart.Enabled = false;
                         buttonStop.Enabled = true;
@@ -353,6 +392,7 @@ namespace ScheduleFinder
                 MessageBox.Show(ex.Message);
             }
 
+
         }
 
         private async void webView21_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
@@ -360,10 +400,14 @@ namespace ScheduleFinder
             try
             {
                  string sURL = webView21.Source.ToString();
-                string live_url = "https://dsa.dft.gov.uk/obs-web/pages/home?execution";
+                string live_url = "https://driver-services.dvsa.gov.uk/obs-web/pages/home?execution";           
+
+                string live_url_change = "https://driver-services.dvsa.gov.uk/obs-web/pages/common/notifications?execution";
+
+                string live_url_book = "https://driver-services.dvsa.gov.uk/obs-web/pages/bookingmanagement/searchforbookings?execution";
 
 
-                if (sURL.Contains(live_url))
+                if (sURL.Contains(live_url) || sURL.Contains(live_url_change) || sURL.Contains(live_url_book))
                 {
                    
                     string allNone = await webView21.ExecuteScriptAsync("document.documentElement.outerHTML;");
@@ -384,12 +428,12 @@ namespace ScheduleFinder
                         if(backButtonCloseDialog!=null)
                         {
                             mytimer.Stop();
-                            string res = await webView21.ExecuteScriptAsync("document.getElementById('backButtonCloseDialog').click()");
-                            System.Threading.Thread.Sleep(1500);
-                            mytimer.Start();
-                            buttonStart.Enabled = false;
-                            buttonStop.Enabled = true;
-                            s1.Start();
+                           string res = await webView21.ExecuteScriptAsync("document.getElementById('backButtonCloseDialog').click()");
+                            System.Threading.Thread.Sleep(5000);
+                            //mytimer.Start();
+                            //buttonStart.Enabled = false;
+                            //buttonStop.Enabled = true;
+                            //s1.Start();
 
 
 
@@ -397,11 +441,15 @@ namespace ScheduleFinder
 
                         //Logger.WriteToFile(tag.ToString());
 
-                        if (tag != null || prevtag != null)
+                        if (prevtag != null || tag != null)
                         {
                             slotClicked = 0;
-                            mytimer.Stop();
-                            s1.Stop();
+                            if (mytimer.Enabled == true)
+                            {
+                                mytimer.Stop();
+                                s1.Stop();
+                                
+                            }
                             buttonStart.Enabled = true;
                             //dateTimePicker1.Enabled = false;
                             if (currweek != null)
@@ -438,45 +486,54 @@ namespace ScheduleFinder
                                     i++;
                                 }
                             }
-
                             await webView21.ExecuteScriptAsync("document.getElementById('timer_stat').innerHTML ='off';");
-                            await webView21.ExecuteScriptAsync("document.getElementById('last_date').innerHTML ='"+dateTimePicker1.Value.ToString("yyyy-MM-dd") + "';");
+                            await webView21.ExecuteScriptAsync("document.getElementById('last_date').innerHTML ='"+ comboBox1.SelectedItem.ToString() + "';");
                           
                         }
                         else if (resultAvailbleTest != null && resultAvailbleTest.InnerText == "Test centre availability - Book tests")
                         {
                           
                             var slotCountdown = htmlDoc.DocumentNode.SelectNodes("//div[@id='slotCountdown']");
+                            var nodes = htmlDoc.DocumentNode.SelectNodes("//td[@class='reserve centre']");
+                            SendMail("1 Slot booked");
+                            //var nodes = htmlDoc.DocumentNode.SelectNodes("//td[@class='sorting_1']");
+                            //slotClicked = 0;
+                            /*   string mailbody=null;
+                               HtmlNode a=null;
+                               if (nodes != null && slotClicked<3)
+                               {
+                                   string resSlot = null;
+                                   foreach (HtmlNode node in nodes)
+                                   {
+                                       a = node.SelectSingleNode("//span/span/a");
+                                       if (a != null)
+                                       {
+                                           resSlot = a.Attributes["id"].Value;
+                                           string res = await webView21.ExecuteScriptAsync("document.getElementById('" + resSlot + "').click()");
+                                           slotClicked++;
+                                           labelSlotBooked.Text = "Slot Booked :" + slotClicked;
 
+                                           mailbody = a.InnerText;
+                                           break;                                           
 
-                                var nodes = htmlDoc.DocumentNode.SelectNodes("//td[@class='reserve centre']");
-                                //var nodes = htmlDoc.DocumentNode.SelectNodes("//td[@class='sorting_1']");
-                                if (nodes != null && mytimer.Enabled==true)
-                                {
-                                    string resSlot = null;
-                                    foreach (HtmlNode node in nodes)
-                                    {
-                                        HtmlNode a = node.SelectSingleNode("//span/span/a");
-                                        if (a != null && slotClicked == 0)
-                                        {
-                                            resSlot = a.Attributes["id"].Value;
-                                            string res = await webView21.ExecuteScriptAsync("document.getElementById('" + resSlot + "').click()");
-                                            slotClicked = 1;
-                                            buttonStart.Enabled = false;
-                                            labelSlotBooked.Text = "Slot Booked :1";
-                                             SendMail(a.InnerText);                                     
+                                       }                                  
 
-                                            break;
-                                           
+                                   }
+                                   if (slotClicked > 0)
+                                   {
+                                          SendMail(mailbody);
+                                   }
 
-                                        }
-                                    }
-
+                               }
+                               if (mytimer.Enabled == true)
+                               {
+                                   mytimer.Stop();
+                                   s1.Stop();
+                                   buttonStop.Enabled = false;
+                                   buttonStart.Enabled = false;
+                                   await webView21.ExecuteScriptAsync("document.getElementById('timer_stat').innerHTML ='off';");
                                 }
-                            mytimer.Stop();
-                            s1.Stop();
-                            buttonStop.Enabled = false;
-                            await webView21.ExecuteScriptAsync("document.getElementById('timer_stat').innerHTML ='off';");
+                               */
                             //dateTimePicker1.Enabled = false;
 
                         }
@@ -546,22 +603,30 @@ namespace ScheduleFinder
         public async void SendMail(string rcenter)
         {
 
-            var mailMessage = new MimeMessage();
-            mailMessage.From.Add(new MailboxAddress("Scarapper Alert", "testme2576@gmail.com"));
-            mailMessage.Cc.Add(new MailboxAddress("Hasan", "ashek1412@gmail.com"));
-            mailMessage.To.Add(new MailboxAddress("Thea", "des234567@gmail.com"));
-            mailMessage.Subject = "Slot Found !!";
-            mailMessage.Body = new TextPart("plain")
+            try
             {
-                Text =  labelSlotBooked.Text + " . " + rcenter
-            };
 
-            using (var smtpClient = new SmtpClient())
+                var mailMessage = new MimeMessage();
+                mailMessage.From.Add(new MailboxAddress("Scarapper Alert", "stuff@quickfastpass.co.uk "));
+                mailMessage.Cc.Add(new MailboxAddress("Julian", "dndome@yahoo.co.uk"));                
+                mailMessage.Subject = "Slot Found !!";
+                mailMessage.Body = new TextPart("plain")
+                {
+                    Text = labelSlotBooked.Text + " . " + rcenter
+                };
+
+                using (var smtpClient = new SmtpClient())
+                {
+                    await smtpClient.ConnectAsync("mail.quickfastpass.co.uk", 465, SecureSocketOptions.Auto);
+                    smtpClient.Authenticate("stuff@quickfastpass.co.uk", "ID7648stuff");
+                    await smtpClient.SendAsync(mailMessage);
+                    smtpClient.Disconnect(true);
+                }
+            }
+            catch(Exception exmail)
             {
-                await smtpClient.ConnectAsync("smtp.gmail.com", 465, true);
-                smtpClient.Authenticate("testme2576@gmail.com", "hzmfsxmlzkztkcmi");
-                await smtpClient.SendAsync(mailMessage);
-                smtpClient.Disconnect(true);
+
+                MessageBox.Show(exmail.Message);
             }
         }
         }
